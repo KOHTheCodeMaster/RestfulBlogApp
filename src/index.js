@@ -39,11 +39,11 @@ let Blog = mongoose.model("Blog", blogSchema);
 
 //  Home page route
 app.get("/", function (req, res) {
-    res.redirect("/index");
+    res.redirect("/blogs");
 });
 
-// INDEX - blogs index page route
-app.get("/index", function (req, res) {
+// INDEX - list all blogs at home page route
+app.get("/blogs", function (req, res) {
 
     //  Find all the blogs from DB
     Blog.find({}, function (err, blogs) {
@@ -58,13 +58,13 @@ app.get("/index", function (req, res) {
 });
 
 //  CREATE - blogs post page route
-app.post("/index", function (req, res) {
+app.post("/blogs", function (req, res) {
 
     //  Retrieve request parameters
     let newBlog = {
-        name: req.body.name,
-        imageUrl: req.body.imageUrl,
-        description: req.body.description,
+        name: req.body.blog.name,
+        imageUrl: req.body.blog.imageUrl,
+        description: req.body.blog.description,
         created: Date.now()
     };
 
@@ -73,13 +73,32 @@ app.post("/index", function (req, res) {
         if (err) console.log(err);
         else {
             console.log("New Blog Added.\n" + blog);
-            //  Redirect to /index
-            res.redirect("index");
+            //  Redirect to /blogs
+            res.redirect("/blogs");
         }
     });
 
 });
 
+//  NEW - form for creating new blog post
+app.get("/blogs/new", function (req, res) {
+    res.render("new");
+});
+
+//  SHOW - display particular blog post by id
+app.get("/blogs/:id", function (req, res) {
+
+    //  Find blog by id from DB
+    Blog.findById(req.params.id, function (err, foundBlog) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        //  Render the foundBlog fetched from DB
+        res.render("show", {blog: foundBlog});
+    });
+
+});
 
 //  Boot the Server
 app.listen(3000, function () {

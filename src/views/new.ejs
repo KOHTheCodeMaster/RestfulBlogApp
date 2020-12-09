@@ -1,0 +1,32 @@
+<%- include("partials/header"); %>
+
+<main>
+
+    <div class="ui main text container segment inverted">
+
+        <div class="ui huge header"> New Blog</div>
+
+        <form class="ui form inverted" action="/blogs" method="post">
+            <div class="field">
+                <label for="name">Name</label>
+                <input id="name" type="text" name="blog[name]" placeholder="Name">
+            </div>
+            <div class="field">
+                <label for="imageUrl">Image URL</label>
+                <input id="imageUrl" type="text" name="blog[imageUrl]" placeholder="Image URL">
+            </div>
+            <div class="field">
+                <label for="description">Description</label>
+                <textarea id="description" name="blog[description]" placeholder="Description" cols="30"
+                          rows="10"></textarea>
+            </div>
+            <div class="field">
+                <input id="submit" type="submit" value="Create" class="ui green big button">
+            </div>
+        </form>
+
+    </div>
+
+</main>
+
+<%- include("partials/footer"); %>

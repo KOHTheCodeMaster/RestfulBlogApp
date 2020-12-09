@@ -1,16 +1,5 @@
 <%- include("partials/header"); %>
 
-<style>
-    main {
-        margin: 50px;
-    }
-
-    img {
-        width: 300px;
-        height: 300px;
-    }
-</style>
-
 <main>
 
     <!--  Gallery Campgrounds  -->
@@ -21,10 +10,12 @@
             <div>
                 <h4><%= blog.name %></h4>
                 <img src="<%= blog.imageUrl %>" alt="Blog Image">
-                <p><%= blog.description %></p>
+                <p><%= blog.description.substring(0, 50) %>...</p>
                 <p><%= blog.created %></p>
+                <a href="/blogs/<%= blog._id %>">Read More</a>
             </div>
-        <% }) %>
+            <hr>
+        <% }); %>
 
     </div>
 
