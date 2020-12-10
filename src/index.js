@@ -1,12 +1,14 @@
 let express = require("express"),
     mongoose = require("mongoose"),
     bodyparser = require("body-parser"),
+    methodOverride = require("method-override"),
     app = express();
 
 //  App Configuration
 //  --------------------------------------------------
 
 app.use(bodyparser.urlencoded({extended: true}));
+app.use(methodOverride("_method"));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 
@@ -72,7 +74,7 @@ app.post("/blogs", function (req, res) {
     Blog.create(newBlog, function (err, blog) {
         if (err) console.log(err);
         else {
-            console.log("New Blog Added.\n" + blog);
+            // console.log("New Blog Added.\n" + blog);
             //  Redirect to /blogs
             res.redirect("/blogs");
         }
@@ -85,7 +87,7 @@ app.get("/blogs/new", function (req, res) {
     res.render("new");
 });
 
-//  SHOW - display particular blog post by id
+//  SHOW - display particular blog by id
 app.get("/blogs/:id", function (req, res) {
 
     //  Find blog by id from DB
@@ -96,6 +98,63 @@ app.get("/blogs/:id", function (req, res) {
         }
         //  Render the foundBlog fetched from DB
         res.render("show", {blog: foundBlog});
+    });
+
+});
+
+//  EDIT - edit form for particular blog by id
+app.get("/blogs/:id/edit", function (req, res) {
+
+    //  Find blog by id from DB
+    Blog.findById(req.params.id, function (err, foundBlog) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        //  Render the foundBlog fetched from DB
+        res.render("edit", {blog: foundBlog});
+    });
+
+});
+
+//  UPDATE - update blog for particular id
+app.put("/blogs/:id", function (req, res) {
+
+    //  Retrieve request parameters
+    let newBlog = {
+        name: req.body.blog.name,
+        imageUrl: req.body.blog.imageUrl,
+        description: req.body.blog.description,
+        // created: Date.now()
+    };
+
+    //  Add new item to blogs collection
+    Blog.findByIdAndUpdate(req.params.id, newBlog, function (err, updatedBlog) {
+        if (err) {
+            console.log(err);
+            res.redirect("/blogs");
+        } else {
+            // console.log("Blog Updated.\n" + updatedBlog);
+            //  Redirect to /blogs
+            res.redirect("/blogs/" + req.params.id);
+        }
+    });
+
+});
+
+//  DELETE - delete blog for particular id
+app.delete("/blogs/:id", function (req, res) {
+
+    //  Add new item to blogs collection
+    Blog.findByIdAndRemove(req.params.id, function (err, deletedBlog) {
+        if (err) {
+            console.log(err);
+            res.redirect("/blogs");
+        } else {
+            console.log("Blog Deleted: " + deletedBlog);
+            //  Redirect to /blogs
+            res.redirect("/blogs");
+        }
     });
 
 });

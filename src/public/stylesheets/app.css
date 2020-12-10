@@ -18,3 +18,11 @@ img {
     width: 300px;
     height: 300px;
 }
+
+#blog-show-btns {
+    margin-top: 1em;
+}
+
+#form-del-btn {
+    display: inline;
+}
