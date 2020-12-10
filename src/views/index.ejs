@@ -1,22 +1,37 @@
 <%- include("partials/header"); %>
 
+<!-- Blogs Home Page -->
 <main>
 
-    <!--  Gallery Campgrounds  -->
-    <div>
 
-        <!-- Iterate campData & display camp image & name -->
-        <% blogs.forEach(function (blog) { %>
-            <div>
-                <h4><%= blog.name %></h4>
-                <img src="<%= blog.imageUrl %>" alt="Blog Image">
-                <p><%- blog.description.substring(0, 50) %>...</p>
-                <p><%= blog.created %></p>
-                <a href="/blogs/<%= blog._id %>">Read More</a>
+    <div class="ui main text container segment inverted">
+        <div class="ui huge header">Restful Blog App</div>
+        <div id="home-segment" class="ui attached segment inverted">
+            <div class="ui divided items">
+
+                <!-- Iterate campData & display camp image & name -->
+                <% blogs.forEach(function (blog) { %>
+                    <div class="item">
+                        <div class="image">
+                            <img src="<%= blog.imageUrl %>" alt="Blog Image">
+                        </div>
+                        <div class="content">
+                            <h1 id="blog-title"><%= blog.name %></h1>
+                            <div>
+                                <p class="description"><%- blog.description.substring(0, 50) %>...</p>
+                                <p><%= blog.created.toDateString() %></p>
+                            </div>
+                            <div class="extra">
+                                <a class="ui floated basic button blue" href="/blogs/<%= blog._id %>">
+                                    Read More
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+
             </div>
-            <hr>
-        <% }); %>
-
+        </div>
     </div>
 
 </main>

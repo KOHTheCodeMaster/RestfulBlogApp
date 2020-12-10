@@ -9,9 +9,9 @@
         <div class="ui top attached segment inverted">
             <div class="item">
                 <img class="ui centered rounded image" src="<%= blog.imageUrl %>" alt="Blog Image">
-                <div class="content"><%= blog.created %></div>
+                <div class="content mt-1"><%= blog.created.toDateString() %></div>
                 <div class="description"><%- blog.description %></div>
-                <div id="blog-show-btns">
+                <div class="mt-1">
                     <a class="ui basic button yellow" href="/blogs/<%= blog._id %>/edit">EDIT</a>
                     <form id="form-del-btn" action="/blogs/<%= blog._id %>?_method=DELETE" method="post">
                         <button class="ui basic button red">DELETE</button>
